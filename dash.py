@@ -8,7 +8,7 @@ import os
 
 # Use a pipeline as a high-level helper
 
-headers = {"Authorization": "Bearer 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"}
+headers = {"Authorization": "Bearer your_secret_key"}
 general_eye_API_URL = "https://api-inference.huggingface.co/models/SM200203102097/eyeDiseasesDetectionModel"
 
 skinCancerAPIURL = "https://api-inference.huggingface.co/models/gianlab/swin-tiny-patch4-window7-224-finetuned-skin-cancer"
