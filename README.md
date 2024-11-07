@@ -1,2 +1,0 @@
-# Solon Labs
-Solon Labs

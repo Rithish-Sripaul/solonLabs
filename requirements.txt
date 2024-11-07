@@ -1,0 +1,4 @@
+Flask
+functools
+click
+werkzeug

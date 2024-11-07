@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS scan;
+DROP TABLE IF EXISTS share;
 
 
 CREATE TABLE user (
@@ -9,15 +10,6 @@ CREATE TABLE user (
   username TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
   profession TEXT NOT NULL
-);
-
-CREATE TABLE post (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  author_id INTEGER NOT NULL,
-  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  title TEXT NOT NULL,
-  body TEXT NOT NULL,
-  FOREIGN KEY (author_id) REFERENCES user (id)
 );
 
 CREATE TABLE scan (
@@ -31,6 +23,23 @@ CREATE TABLE scan (
   gender INTEGER NOT NULL,
   symptoms TEXT,
   input_img NVARCHAR NOT NULL,
-  output_res TEXT NOT NULL,
+  output_res NVARCHAR NOT NULL,
+  status TEXT NOT NULL,
   FOREIGN KEY (doctor_id) REFERENCES uesr (id)
-)
+);
+
+CREATE TABLE share (
+  share_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  scan_id INTEGER NOT NULL,
+  og_doctor_id INTEGER NOT NULL,
+  og_doctor_name TEXT NOT NULL,
+  firstName TEXT NOT NULL,
+  secondName TEXT NOT NULL,
+  created TIMESTAMP NOT NULL,
+  output_res TEXT NOT NULL,
+  end_doctor_id INTEGER NOT NULL,
+  status TEXT NOT NULL,
+  FOREIGN KEY (scan_id) REFERENCES scan (id),
+  FOREIGN KEY (og_doctor_id) REFERENCES user (id),
+  FOREIGN KEY (end_doctor_id) REFERENCES user (id)
+);

@@ -1,5 +1,11 @@
 {% extends 'dashboardBase.html' %}
 
+
+{% block doctorName %}
+Dr. {{doctor["name"]}}
+{% endblock %}
+
+
 {% block mainPanel %}
 <div class="main-panel">
   <div class="content-wrapper">
@@ -47,7 +53,39 @@
                 </tr>
               </thead>
               <tbody>
+
+                {% for patient in patients %}
                 <tr>
+                  <td class="text-center p11">
+                    {{patient["id"]}}
+                  </td>
+                  <td class="text-center p12">
+                    {{patient["firstName"]}} {{patient["secondName"]}}
+                  </td>
+                  <td class="text-center ">{% if patient["status"] == "review"%}
+                    <label class="badge badge-opacity-warning p13">In review</label>
+                    {% elif patient["status"] == "completed"%}
+                    <label class="badge badge-opacity-success p13">Completed</label>
+                    {% else %}
+                    <label class="badge badge-danger p13"><b>Operation</b></label>
+                    {% endif %}
+                  </td>
+                  <td class="text-center p14">
+                    {{patient["output_res"].split("~")[0]}}
+                  </td>
+                  <td class="text-center p16">
+                    <h6>{{patient["created"]}}</h6>
+                  </td>
+                  <td><a type="button" class="btn btn-success btn-rounded btn-fw order-btn p1"
+                      href='{{ url_for("dash.patientDetails", id=patient["id"]) }}'>Details</a>
+                  </td>
+                </tr>
+                {% endfor %}
+
+
+
+
+                <!-- <tr>
                   <td class="text-center p11">
                     67
                   </td>
@@ -80,26 +118,7 @@
                   </td>
                   <td><button type="button" class="btn btn-success btn-rounded btn-fw order-btn p2">Details</button>
                   </td>
-                </tr>
-                <tr>
-                  <td class="text-center p31">
-                    101
-                  </td>
-                  <td class="text-center p32">
-                    Hari Krishna
-                  </td>
-                  <td class="text-center"><label class="badge badge-danger p33"><b>Operation</b></label></td>
-                  <td class="text-center p34">
-                    Retina Damage
-                  </td>
-                  <td class="text-center p35">
-                    <h6>04/04/2024 - 8:30 PM</h6>
-                  </td>
-                  <td><button type="button" class="btn btn-success btn-rounded btn-fw order-btn p3">Details</button>
-                  </td>
-                </tr>
-
-
+                </tr> -->
               </tbody>
             </table>
           </div>

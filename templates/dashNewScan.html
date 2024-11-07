@@ -1,5 +1,10 @@
 {% extends 'dashboardBase.html' %}
 
+{% block doctorName %}
+Dr. {{doctor["name"]}}
+{% endblock %}
+
+
 {% block mainPanel %}
 <div class="main-panel">
   <div class="content-wrapper">
@@ -13,11 +18,13 @@
             </p>
             <form class="forms-sample" method="POST" enctype="multipart/form-data">
 
-              <div class="form-group">
+              <div cl ass="form-group">
                 <label for="modelName">Model</label>
                 <select id="modelName" name="modelName" class="form-select">
-                  <option value="cataractDetection">Cataract Detection Model</option>
-                  <option value="retinaDamagae">Retina Damage Detection Model</option>
+                  <option value="generalEye">General Eye Disease Detection Model</option>
+                  <option value="skinCancer">Skin Cancer Detection Model</option>
+                  <option value="lungDisease">Lung Disease Detection Model</option>
+
                 </select>
               </div>
 
@@ -54,16 +61,41 @@
 
               <div class="form-group">
                 <label for="formFile">Upload Image</label>
-                <input class="form-control" type="file" id="formFile" name="image">
+                <input class="form-control file-uploader" type="file" id="formFile" name="image" onchange='upload()'>
               </div>
 
-              <button type="submit" class="btn btn-primary me-2">Submit</button>
+              <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status" class="form-select">
+                  <option value="review">In review</option>
+                  <option value="completed">Completed</option>
+                  <option value="operation">Operation</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-success me-2" value="submit"><b>Submit</b></button>
               <button class="btn btn-light">Cancel</button>
             </form>
           </div>
         </div>
       </div>
 
+      <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Uploaded Image</h4>
+            <p class="card-description">
+              Click <cite>Submit</cite> to predict and save the work
+            </p>
+            <div class="w-100 mb-5 rounded scanImage" style="background-color: #eee; min-height: 75%; background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;"></div>
+            <figure class="text-center">
+              <p class="h6">Click <cite>Submit</cite> to predict and save the work</p>
+            </figure>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <!-- content-wrapper ends -->

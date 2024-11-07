@@ -1,0 +1,159 @@
+{% extends 'dashboardBase.html' %}
+
+
+{% block doctorName %}
+Dr. {{doctor["name"]}}
+{% endblock %}
+
+{% block mainPanel %}
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row" id="element-to-print">
+      <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <div>
+              <p class="mb-6 display-4 fw-bold">Patient Details</p>
+              {% if patient["status"] == "review"%}
+              <label class="badge badge-opacity-warning p13">In review</label>
+              {% elif patient["status"] == "completed"%}
+              <label class="badge badge-opacity-success p13">Completed</label>
+              {% else %}
+              <label class="badge badge-danger p13"><b>Operation</b></label>
+              {% endif %}
+            </div>
+            <div class="mb-4 mt-3">
+              <div class="h6 fw-lighter patientId">Patient ID</div>
+              <p class="h3">{{patient["id"]}}</p>
+            </div>
+
+
+            <div class="mb-4">
+              <p class="h6 fw-lighter">Model Used</p>
+              {% if patient["model"] == "cataractDetection"%}
+              <p class="h3">Cataract Detection Model</p>
+              {% elif patient["model"] == "generalEye"%}
+              <p class="h3">General Eye Disease Detection Model</p>
+              {% elif patient["model"] == "skinCancer"%}
+              <p class="h3">Skin Cancer Detection Model</p>
+              {% elif patient["model"] == "lungDisease"%}
+              <p class="h3">Lung Disease Detection Model</p>
+              {% endif %}
+            </div>
+
+            <div class="mb-4">
+              <div class="h6 fw-lighter patientName">Patient First Name</div>
+              <p class="h3">{{patient["firstName"]}}</p>
+            </div>
+
+            <div class="mb-4">
+              <div class="h6 fw-lighter">Patient Second Name</div>
+              <p class="h3">{{patient["secondName"]}}</p>
+            </div>
+
+            <div class="mb-4">
+              <div class="h6 fw-lighter">Age</div>
+              <p class="h3">{{patient["age"]}}</p>
+            </div>
+            <div class="mb-4">
+              <div class="h6 fw-lighter">Gender</div>
+              <p class="h3">{{patient["gender"].title()}}</p>
+            </div>
+
+            <div class="mb-4">
+              <div class="h6 fw-lighter">Symptoms</div>
+              <p class="h3">{{patient["symptoms"]}}</p>
+            </div>
+
+            <div class="mb-4">
+              <div class="h6 fw-lighter">Analysis by model</div>
+              <p class="h3">
+
+                {% for i in patient["output_res"].split("~") %}
+                {{i}} <br>
+                {% endfor %}
+              </p>
+
+              <!-- <p class="h3">{{patient["output_res"].title()}}</p> -->
+            </div>
+
+            <button type="submit" class="btn btn-success me-2 download"><b>Download</b></button>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+              <b>Share</b>
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+              aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Share patients</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="POST" class="forms-sample">
+                      <div class="form-group">
+                        <label for="modelName">Doctors</label>
+                        <select id="modelName" name="end_doctor" class="form-select">
+                          {% for doctor in doctors %}
+                          <option value="{{doctor['id']}}">{{doctor["username"]}}</option>
+                          {% endfor %}
+
+                        </select>
+                        <button type="submit" class="btn btn-success me-2" value="submit"><b>Share</b></button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <button type="submit" class="btn btn-warning me-2" value="share"><b>Share Patient</b></button> -->
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Uploaded Image</h4>
+            <p class="card-description">
+              This is the image used by the model
+            </p>
+            <!-- <div class="w-100 mb-5 rounded scanImage" style="min-height: 75%;background-image:url('images/patients/1Revan.jpg');background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;"></div> -->
+            <div class="w-100 d-flex align-items-center justify-content-center">
+              <img class="w-75 mb-4 mt-4 rounded" src="{{url_for('static', filename=patient['input_img'][6:])}}" alt="">
+            </div>
+
+            <figure class="text-center">
+              <p class="h6 fw-light">Click <cite>download</cite> to download the details and image to a PDF</p>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- content-wrapper ends -->
+  <!-- partial:partials/_footer.html -->
+  <footer class="footer">
+    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+      <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Premium <a
+          href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from
+        BootstrapDash.</span>
+      <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2021. All rights
+        reserved.</span>
+    </div>
+  </footer>
+  <!-- partial -->
+</div>
+
+{% endblock %}

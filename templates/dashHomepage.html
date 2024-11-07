@@ -1,5 +1,11 @@
 {% extends 'dashboardBase.html' %}
 
+{% block doctorName %}
+Dr. {{doctor["name"]}}
+{% endblock %}
+
+
+
 {% block mainPanel %}
 <div class="main-panel">
   <div class="content-wrapper">
@@ -54,12 +60,12 @@
 
                     <div class="d-none d-md-block">
                       <p class="statistics-title">Day - Date</p>
-                      <h3 class="rate-percentage text-center">Thu - 4/4</h3>
+                      <h3 class="rate-percentage text-center" id="date">Thu - 4/4</h3>
                     </div>
 
                     <div class="d-none d-md-block">
                       <p class="statistics-title">Time</p>
-                      <h3 class="rate-percentage text-center">5:55 PM</h3>
+                      <h3 class="rate-percentage text-center" id="time">5:55 PM</h3>
                     </div>
                   </div>
                 </div>
@@ -134,7 +140,43 @@
                                 </tr>
                               </thead>
                               <tbody>
+
+                                {% for patient in patients %}
                                 <tr>
+                                  <td>
+                                    <div class="d-flex ">
+                                      <div>
+                                        <h6>{{patient["firstName"]}}</h6>
+                                        <p>{{patient["secondName"]}}</p>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <h6>{{patient["created"]}}</h6>
+                                  </td>
+                                  <td>
+                                    <div>
+                                      {{patient["output_res"].split("~")[0]}}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    {% if patient["status"] == "review"%}
+                                    <label class="badge badge-opacity-warning p13">In review</label>
+                                    {% elif patient["status"] == "completed"%}
+                                    <label class="badge badge-opacity-success p13">Completed</label>
+                                    {% else %}
+                                    <label class="badge badge-danger p13"><b>Operation</b></label>
+                                    {% endif %}
+                                  </td>
+                                  <td>
+                                    <a href='{{ url_for("dash.patientDetails", id=patient["id"]) }}'
+                                      class="btn btn-primary text-white me-0">Detail</a>
+                                  </td>
+                                </tr>
+                                {% endfor %}
+
+
+                                <!-- <tr>
                                   <td>
                                     <div class="d-flex ">
                                       <div>
@@ -205,7 +247,7 @@
                                   <td>
                                     <a href="#" class="btn btn-primary text-white me-0">Detail</a>
                                   </td>
-                                </tr>
+                                </tr> -->
                               </tbody>
                             </table>
                           </div>
@@ -243,7 +285,47 @@
                                 </tr>
                               </thead>
                               <tbody>
+
+                                {% for patient in shared_patients %}
                                 <tr>
+                                  <td>
+                                    <div class="d-flex ">
+                                      <div>
+                                        <h6>{{patient["firstName"]}}</h6>
+                                        <p>{{patient["secondName"]}}</p>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <h6>{{patient["created"]}}</h6>
+                                  </td>
+                                  <td>
+                                    <div>
+                                      {{patient["og_doctor_name"]}}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div>
+                                      {{patient["og_doctor_name"]}}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    {% if patient["status"] == "review"%}
+                                    <label class="badge badge-opacity-warning p13">In review</label>
+                                    {% elif patient["status"] == "completed"%}
+                                    <label class="badge badge-opacity-success p13">Completed</label>
+                                    {% else %}
+                                    <label class="badge badge-danger p13"><b>Operation</b></label>
+                                    {% endif %}
+                                  </td>
+                                  <td>
+                                    <a href='{{ url_for("dash.patientDetails", id=patient["scan_id"]) }}'
+                                      class="btn btn-primary text-white me-0">Detail</a>
+                                  </td>
+                                </tr>
+                                {% endfor %}
+
+                                <!-- <tr>
                                   <td>
                                     <div class="d-flex ">
                                       <div>
@@ -331,7 +413,7 @@
                                   <td>
                                     <a href="#" class="btn btn-primary text-white me-0">Detail</a>
                                   </td>
-                                </tr>
+                                </tr> -->
                               </tbody>
                             </table>
                           </div>
