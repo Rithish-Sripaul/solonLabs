@@ -1,2 +1,2 @@
-# vizagHackathon
-Vizag Medical Hackathon
+# Solon Labs
+Solon Labs
